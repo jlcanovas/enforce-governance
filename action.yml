@@ -1,0 +1,29 @@
+name: "Enforce Governance"
+description: "Enforce governance rule on your GitHub repositories"
+inputs:
+  rule:
+    description: "The governance rule to enforce"
+    required: true
+    default: "issue"
+outputs:
+  text:
+    description: "The output text"
+    value: ${{ steps.governance.outputs.text }}
+runs:
+  using: "composite"
+  steps:
+    - name: Install Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.11"
+    - name: Install dependencies
+      run: pip install -r requirements.txt
+      shell: bash
+    - name: Pass inputs to shell
+      run: |
+        echo "INPUT_RULE=${{ inputs.rule }}" >> $GITHUB_ENV
+      shell: bash
+    - name: Enforce governance
+      id: governance
+      run: python src/enforce_governance.py
+      shell: bash
