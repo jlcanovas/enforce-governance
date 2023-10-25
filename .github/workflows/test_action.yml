@@ -1,0 +1,19 @@
+name: Test Action
+on: [push]
+
+jobs:
+  enforce-governance:
+    runs-on: ubuntu-latest
+    name: Test the enforce of governance
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Enforce governance
+        id: governance
+        uses: ./ 
+        with:
+          rule: "2.2"
+      - name: Print the result
+        run: echo "${{ steps.governance.outputs.text }}"
