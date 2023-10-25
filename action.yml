@@ -25,5 +25,5 @@ runs:
       shell: bash
     - name: Enforce governance
       id: governance
-      run: python src/enforce_governance.py
+      run: python ${GITHUB_ACTION_PATH}/src/enforce_governance.py
       shell: bash
